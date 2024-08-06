@@ -18,7 +18,13 @@
     <h2>Add Item to Master Data</h2>
 
     <label for="type">SKU Type:</label>
-    <input type="text" name="type"><br>
+    <select name="type">
+      <% skutypes.forEach(function(skutype) { %>
+        <option value="<%=skutype.type %>">
+          <%= skutype.type %>
+        </option>
+        <% }); %>
+    </select><br>
 
     <label for="brand">Brand Name:</label>
     <input type="text" name="brand"><br>

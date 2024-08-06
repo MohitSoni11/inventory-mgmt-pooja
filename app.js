@@ -77,7 +77,13 @@ const Skutypes = mongoose.model('skutypes', SkutypeSchema);
 /////////////////////////////
 
 app.get('/', (req, res) => {
-  res.render('home');
+  Skutypes.find({})
+  .then(skutypes => {
+    res.render('home', {skutypes: skutypes});
+  })
+  .catch(err => {
+    console.log(err);
+  })
 });
 
 app.post('/addmaster', (req, res) => {
