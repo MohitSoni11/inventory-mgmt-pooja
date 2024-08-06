@@ -8,7 +8,32 @@
 </head>
 
 <body>
-  <h1>Hello World!</h1>
+  <form action="/skutype" method="POST">
+    <h2>Add SKU Type</h2>
+    <input type="text" name="skutype">
+    <input type="submit">
+  </form>
+
+  <form action="/addmaster" method="POST">
+    <h2>Add Item to Master Data</h2>
+
+    <label for="type">SKU Type:</label>
+    <input type="text" name="type"><br>
+
+    <label for="brand">Brand Name:</label>
+    <input type="text" name="brand"><br>
+
+    <label for="name">SKU Name:</label>
+    <input type="text" name="name"><br>
+
+    <label for="uom">UOM:</label>
+    <input type="text" name="uom"><br>
+
+    <label for="margin">Profit Margin:</label>
+    <input type="number" min="0" max="100" name="margin"><br>
+
+    <input type="submit">
+  </form>
 </body>
 
 </html>
