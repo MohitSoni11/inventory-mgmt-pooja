@@ -35,6 +35,10 @@ mongoose.connect('mongodb://localhost:27017/db')
   console.log('ERROR: MongoDB could not connect.')
 ));
 
+/////////////////////////////////////////////////////////
+/********* MongoDB Collection Schemas & Models *********/
+/////////////////////////////////////////////////////////
+
 const MasterSchema = mongoose.Schema({
   type: { 
     type: String, 
@@ -58,7 +62,15 @@ const MasterSchema = mongoose.Schema({
   }
 });
 
-const Master = mongoose.model('master', MasterSchema);
+const SkutypeSchema = mongoose.Schema({
+  type: {
+    type: String,
+    required: true
+  }
+});
+
+const Masters = mongoose.model('masters', MasterSchema);
+const Skutypes = mongoose.model('skutypes', SkutypeSchema);
 
 /////////////////////////////
 /********* Routing *********/
@@ -77,9 +89,16 @@ app.post('/addmaster', (req, res) => {
     margin: req.body.margin
   };
 
-  Master.insertMany([data]);
-  console.log(Master);
-  console.log('Added items.');
+  Masters.insertMany([data]);
+  res.redirect('/');
+});
+
+app.post('/skutype', (req, res) => {
+  data = {
+    type: req.body.skutype
+  };
+
+  Skutypes.insertMany([data]);
   res.redirect('/');
 });
 
