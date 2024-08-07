@@ -10,6 +10,7 @@
 <body>
   <form action="/skutype" method="POST">
     <h2>Add SKU Type</h2>
+
     <input type="text" name="skutype">
     <input type="submit">
   </form>
@@ -37,6 +38,28 @@
 
     <label for="margin">Profit Margin:</label>
     <input type="number" min="0" max="100" name="margin"><br>
+
+    <input type="submit">
+  </form>
+
+  <form action="/purchase" method="POST">
+    <h2>Add Lot For Purchased Item</h2>
+
+    <label for="date">Purchase Date:</label>
+    <input type="date" name="date">
+    <input type="time" name="time"><br>
+
+    <label for="name">SKU Name:</label>
+    <input type="text" name="name"><br>
+
+    <label for="stock">Stock:</label>
+    <input type="number" name="stock"><br>
+
+    <label for="uom">UOM:</label>
+    <input type="text" name="uom"><br>
+
+    <label for="cost">Unit Price:</label>
+    <input type="number" name="cost"><br>
 
     <input type="submit">
   </form>

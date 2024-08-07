@@ -69,8 +69,33 @@ const SkutypeSchema = mongoose.Schema({
   }
 });
 
+const PurchaseSchema = mongoose.Schema({
+  date: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  stock: {
+    type: Number,
+    required: true
+  },
+  uom: {
+    type: String,
+    required: true
+  },
+  cost: {
+    type: Number,
+    required: true
+  }
+});
+
 const Masters = mongoose.model('masters', MasterSchema);
 const Skutypes = mongoose.model('skutypes', SkutypeSchema);
+const Purchases = mongoose.model('purchases', PurchaseSchema);
 
 /////////////////////////////
 /********* Routing *********/
@@ -83,7 +108,7 @@ app.get('/', (req, res) => {
   })
   .catch(err => {
     console.log(err);
-  })
+  });
 });
 
 app.post('/addmaster', (req, res) => {
@@ -105,6 +130,19 @@ app.post('/skutype', (req, res) => {
   };
 
   Skutypes.insertMany([data]);
+  res.redirect('/');
+});
+
+app.post('/purchase', (req, res) => {
+  data = {
+    date: req.body.date + "T" + req.body.time + "Z",
+    name: req.body.name,
+    stock: req.body.stock,
+    uom: req.body.uom,
+    cost: req.body.cost,
+  };
+
+  Purchases.insertMany([data]);
   res.redirect('/');
 });
 
