@@ -137,13 +137,23 @@ app.get('/', (req, res) => {
 });
 
 app.post('/addmaster', (req, res) => {
-  data = {
-    type: req.body.type,
-    brand: req.body.brand,
-    name: req.body.name,
-    uom: req.body.uom,
-    margin: req.body.margin
-  };
+  // Making sure name in Master db is unique
+  Masters.find({name: req.body.name})
+  .then(result => {
+    if (result.length == 0) {
+      data = {
+        type: req.body.type,
+        brand: req.body.brand,
+        name: req.body.name,
+        uom: req.body.uom,
+        margin: req.body.margin
+      };
+
+      Masters.insertMany([data]);
+    }
+  })
+  .catch(error => console.error(error));
+  
 
   // Adding skutype to db if it is a new one
   Skutypes.find({type: req.body.type})
@@ -158,7 +168,6 @@ app.post('/addmaster', (req, res) => {
   })
   .catch(error => console.error(error));
 
-  Masters.insertMany([data]);
   res.redirect('/');
 });
 
