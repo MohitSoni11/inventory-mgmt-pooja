@@ -145,16 +145,20 @@ app.post('/addmaster', (req, res) => {
     margin: req.body.margin
   };
 
+  // Adding skutype to db if it is a new one
+  Skutypes.find({type: req.body.type})
+  .then(result => {
+    if (result.length == 0) {
+      newSkutype = {
+        type: req.body.type
+      };
+
+      Skutypes.insertMany([newSkutype]);
+    }
+  })
+  .catch(error => console.error(error));
+
   Masters.insertMany([data]);
-  res.redirect('/');
-});
-
-app.post('/skutype', (req, res) => {
-  data = {
-    type: req.body.skutype
-  };
-
-  Skutypes.insertMany([data]);
   res.redirect('/');
 });
 
