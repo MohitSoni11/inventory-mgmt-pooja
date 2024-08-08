@@ -93,9 +93,34 @@ const PurchaseSchema = mongoose.Schema({
   }
 });
 
+const SaleSchema = mongoose.Schema({
+  date: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  lot: {
+    type: String,
+    required: true
+  },
+  stock: {
+    type: Number,
+    required: true
+  },
+  cost: {
+    type: Number,
+    required: true
+  }
+});
+
 const Masters = mongoose.model('masters', MasterSchema);
 const Skutypes = mongoose.model('skutypes', SkutypeSchema);
 const Purchases = mongoose.model('purchases', PurchaseSchema);
+const Sales = mongoose.model('sales', SaleSchema);
 
 /////////////////////////////
 /********* Routing *********/
@@ -143,6 +168,19 @@ app.post('/purchase', (req, res) => {
   };
 
   Purchases.insertMany([data]);
+  res.redirect('/');
+});
+
+app.post('/sale', (req, res) => {
+  data = {
+    date: req.body.date + "T" + req.body.time + "Z",
+    name: req.body.name,
+    lot: req.body.lot,
+    stock: req.body.stock,
+    cost: req.body.cost,
+  }
+
+  Sales.insertMany([data]);
   res.redirect('/');
 });
 
