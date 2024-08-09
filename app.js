@@ -126,11 +126,10 @@ const Sales = mongoose.model('sales', SaleSchema);
 /********* Routing *********/
 /////////////////////////////
 
-app.get('/', (req, res) => {
-  Skutypes.find({})
-  .then(skutypes => {
-    res.render('home', {skutypes: skutypes});
-  });
+app.get('/', async (req, res) => {
+  const skutypes = await Skutypes.find({});
+  const masterData = await Masters.find({});
+  res.render('home', {skutypes: skutypes, masterData: masterData});
 });
 
 app.get('/inventory', async (req, res) => {
