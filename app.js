@@ -130,16 +130,34 @@ app.get('/', (req, res) => {
   Skutypes.find({})
   .then(skutypes => {
     res.render('home', {skutypes: skutypes});
-  })
-  .catch(err => {
-    console.log(err);
   });
+});
+
+app.get('/inventory', async (req, res) => {
+  const purchases = await Purchases.aggregate([{
+    $group: {
+      _id: '$name',
+      totalStock: {$sum: '$stock'},
+      lots: {$sum: 1}
+    }
+  }])
+
+  const sales = await Sales.aggregate([{
+    $group: {
+      _id: '$name',
+      totalStock: {$sum: '$stock'},
+      lots: {$sum: 1}
+    }
+  }])
+
+  const salesMap = new Map(sales.map(sale => [sale._id, sale.totalStock]))
+
+  res.render('inventory', {purchases: purchases, sales: sales, salesMap: salesMap});
 });
 
 app.post('/addmaster', (req, res) => {
   // Making sure name in Master db is unique
-  Masters.find({name: req.body.name})
-  .then(result => {
+  Masters.find({name: req.body.name}).then(result => {
     if (result.length == 0) {
       data = {
         type: req.body.type,
@@ -151,13 +169,11 @@ app.post('/addmaster', (req, res) => {
 
       Masters.insertMany([data]);
     }
-  })
-  .catch(error => console.error(error));
+  });
   
 
   // Adding skutype to db if it is a new one
-  Skutypes.find({type: req.body.type})
-  .then(result => {
+  Skutypes.find({type: req.body.type}).then(result => {
     if (result.length == 0) {
       newSkutype = {
         type: req.body.type
@@ -165,15 +181,14 @@ app.post('/addmaster', (req, res) => {
 
       Skutypes.insertMany([newSkutype]);
     }
-  })
-  .catch(error => console.error(error));
+  });
 
   res.redirect('/');
 });
 
 app.post('/purchase', (req, res) => {
   data = {
-    date: req.body.date + "T" + req.body.time + "Z",
+    date: req.body.date + 'T' + req.body.time + 'Z',
     name: req.body.name,
     stock: req.body.stock,
     uom: req.body.uom,

@@ -12,7 +12,7 @@
     <h2>Add Item to Master Data</h2>
 
     <datalist id="type-data">
-      <% skutypes.forEach(function(skutype) { %>
+      <% skutypes.forEach((skutype)=> { %>
         <option value="<%=skutype.type %>">
           <%= skutype.type %>
         </option>
@@ -79,6 +79,12 @@
     <input type="number" name="cost"><br>
 
     <input type="submit">
+  </form>
+
+  <br><br><br>
+
+  <form action="/inventory" method="GET">
+    <input type="submit" value="Inventory">
   </form>
 </body>
 
