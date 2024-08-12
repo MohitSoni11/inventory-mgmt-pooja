@@ -9,10 +9,10 @@
 
 <body>
   <div>
-    <% purchases.forEach(purchase=> { %>
-      <p>Name: <%= purchase._id %>
+    <% inventory_position.forEach(item=> { %>
+      <p>Name: <%= item.name %>
       </p>
-      <p>Total Stock: <%= purchase.totalStock - (salesMap.get(purchase._id) || 0) %>
+      <p>Available Stock: <%= item.stock %>
       </p>
       <br><br>
       <% }); %>

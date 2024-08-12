@@ -141,15 +141,16 @@ const Inventory = mongoose.model('inventory_positions', InventorySchema);
 app.get('/', async (req, res) => {
   const skutypes = await Skutypes.find({});
   const masterData = await Masters.find({});
-  res.render('home', {skutypes: skutypes, masterData: masterData});
+  res.render('home', { skutypes: skutypes, masterData: masterData });
 });
 
 app.get('/inventory', async (req, res) => {
-  res.render('inventory');
+  const inventory_position = await Inventory.find({});
+  res.render('inventory', { inventory_position: inventory_position });
 });
 
 app.post('/addmaster', async (req, res) => {
-  const results = await Masters.find({name: req.body.name});
+  const results = await Masters.find({ name: req.body.name });
   
   if (results.length == 0) {
     data = {
